@@ -5,6 +5,7 @@
 #include "resource.h"
 
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+void HideAllElementsOnWindow(HWND hwnd);
 bool RegisterWindow(WNDCLASSEX *wc, HINSTANCE hInstance);
 
 int WINAPI WinMain(
@@ -25,7 +26,7 @@ int WINAPI WinMain(
         WS_OVERLAPPEDWINDOW,
         CW_USEDEFAULT, CW_USEDEFAULT, 800, 600,
         NULL,
-        LoadMenu(hInstance, MAKEINTRESOURCE(MAIN_MENU)),
+        NULL,
         hInstance,
         NULL
     );
@@ -63,11 +64,43 @@ bool RegisterWindow(WNDCLASSEX *wc, HINSTANCE hInstance) {
 
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
     switch (uMsg) {
+        case WM_CREATE: {
+            HINSTANCE hInstance = (HINSTANCE)GetWindowLongPtr(hwnd, GWLP_HINSTANCE);
+
+            RECT rect;
+            GetClientRect(hwnd, &rect);
+
+            int button_width = 100;
+            int button_high  = 50;
+
+            int x = (rect.right - rect.left - button_width) / 2;
+            int y = (rect.bottom - rect.top - button_high) / 2;
+
+            HWND new_game_button = CreateWindowEx(
+                0,
+                L"BUTTON",
+                L"New game",
+                WS_VISIBLE | WS_CHILD,
+                x, y, button_width, button_high,
+                hwnd,   
+                NULL, hInstance, NULL
+            );
+            return 0;
+        }
+
         case WM_DESTROY:
             PostQuitMessage(0);
             return 0;
 
         default:
             return DefWindowProc(hwnd, uMsg, wParam, lParam);
+    }
+}
+
+void HideAllElementsOnWindow(HWND hwnd) {
+    HWND ChildHWND = GetWindow(hwnd, GW_CHILD);
+    while(!ChildHWND) {
+        ShowWindow(ChildHWND, SW_HIDE);
+        ChildHWND = GetWindow(hwnd, GW_HWNDNEXT);
     }
 }
