@@ -1,3 +1,40 @@
+# Исходные файлы сборки CMake
+CMakeCache.txt
+CMakeLists.txt.user
+cmake_install.cmake
+install_manifest.txt
+
+# Папки, созданные CMake
+build/
+Build/
+BUILD/
+CMakeFiles/
+
+# Бинарные файлы
 *.exe
+*.dll
+*.so
+*.a
+*.lib
+*.obj
 *.o
-*.res
+
+# Временные файлы
+*.log
+*.tmp
+*.bak
+
+# IDE
+.vs/
+.idea/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.VC.db
+*.VC.opendb
+
+# ОС
+.DS_Store
+Thumbs.db
+desktop.ini
