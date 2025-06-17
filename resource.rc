@@ -1,0 +1,9 @@
+#include "resource.h"
+
+MAIN_MENU MENU
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "&Exit", ID_FILE_EXIT
+    END
+END
